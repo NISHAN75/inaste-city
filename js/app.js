@@ -1,14 +1,14 @@
-let posts=[ ];
+let posts=[];
 
 const likedPostsId = [];
 const reportedPostsId = [];
 
 const getLikedPosts = () => {
-    return posts.filter((post) => likedPostsId.includes(post.id));
+    return posts.filter((post) => !likedPostsId.includes(post.id));
 };
 
 const getReportedPosts = () => {
-    return posts.filter((post) => !reportedPostsId.includes(post.id));
+    return posts.filter((post) => reportedPostsId.includes(post.id));
 };
 
 const isLiked = (id) => {
@@ -26,32 +26,32 @@ const reportPost = (id) => {
 };
 
 const displayContent = (text) => {
-    return text.length < 30 ? `${text}` : text.slice(0, 30) + "<span class='fw-bold'>... read more</span>";
+    return text.length < 30 ? 'Lorem, ipsum dolor sit amet' : text.slice(0, 30) + "<span class='fw-bold'>... read more</span>";
 };
-
 const switchTab = (id) => {
     if (id === "posts") {
         document.getElementById( "posts" ).style.display = "grid";
         document.getElementById( "liked" ).style.display = "none";
         document.getElementById( "reported" ).style.display = "none";
+        const clearDate=document.getElementById("reported");
+        clearDate.textContent='';
     } else if (id === "liked") {
         document.getElementById( "liked" ).style.display = "block";
         document.getElementById( "posts" ).style.display = "none";
         document.getElementById( "reported" ).style.display = "none";
-
         displayLikedPosts();
+        const clearLikeDate=document.getElementById("liked");
+        clearLikeDate.textContent='';
     } else {
         document.getElementById( "reported" ).style.display = "block";
         document.getElementById( "posts" ).style.display = "none";
         document.getElementById( "liked" ).style.display = "none";
-
         displayReportedPosts();
     }
 };
 
 const createPost = (post) => {
-  console.log(post)
-    const userImage = post.userImage;
+    const image = post.image;
     const div = document.createElement( "article" );
     div.classList.add( "post" );
     div.innerHTML = `
@@ -62,7 +62,7 @@ const createPost = (post) => {
                     target="_blank"
                     class="post__avatar"
                   >
-                    <img src="${userImage}" alt="User Picture" />
+                    <img src="${post.userImage}" alt="User Picture" />
                   </a>
                   <a href="#" class="post__user">phero</a>
                 </div>
@@ -152,9 +152,10 @@ const displayLikedPosts = () => {
 
 const displayReportedPosts = () => {
     const reportedPosts = getReportedPosts();
-    posts.forEach((post) => {
+    reportedPosts.forEach((post) => {
         const div = createPost(post);
         document.getElementById( "reported" ).appendChild(div);
+
     });
 };
 
