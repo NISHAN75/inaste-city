@@ -4,7 +4,7 @@ const likedPostsId = [];
 const reportedPostsId = [];
 
 const getLikedPosts = () => {
-    return posts.filter((post) => !likedPostsId.includes(post.id));
+    return posts.filter((post) => likedPostsId.includes(post.id));
 };
 
 const getReportedPosts = () => {
@@ -39,9 +39,9 @@ const switchTab = (id) => {
         document.getElementById( "liked" ).style.display = "block";
         document.getElementById( "posts" ).style.display = "none";
         document.getElementById( "reported" ).style.display = "none";
+        const  clearLikeData=document.getElementById("liked")
+        clearLikeData.textContent='';
         displayLikedPosts();
-        const clearLikeDate=document.getElementById("liked");
-        clearLikeDate.textContent='';
     } else {
         document.getElementById( "reported" ).style.display = "block";
         document.getElementById( "posts" ).style.display = "none";
